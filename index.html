@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18週自主學習成果 - 前端開發實務</title>
+    <style>
+        /* --- 基礎樣式 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Microsoft JhengHei', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.8; }
+        nav { background: #2c3e50; color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
+        header { 
+            height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            background: linear-gradient(135deg, #3498db, #8e44ad); color: white; text-align: center;
+        }
+
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+        .section-title { text-align: center; margin-bottom: 2.5rem; color: #2c3e50; font-size: 1.8rem; }
+
+        /* --- 技術介紹區塊 (這是新加的) --- */
+        .intro-box { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 3rem; }
+        .intro-box h3 { color: #3498db; margin-bottom: 1rem; }
+        .intro-box mark { background: #fff3cd; padding: 0 5px; }
+
+        /* --- 技能卡片 --- */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
+        .skill-card { 
+            background: white; padding: 2.5rem 1.5rem; border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 300px; 
+            text-align: center; transition: 0.3s; cursor: pointer; border-top: 5px solid transparent;
+        }
+        .skill-card:hover { transform: translateY(-10px); border-top: 5px solid #e67e22; background: #fffcf9; }
+        .skill-card h3 { color: #e67e22; margin-bottom: 15px; font-size: 1.5rem; }
+
+        /* --- 彈出視窗 (Modal) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 2.5rem; border-radius: 20px;
+            max-width: 550px; width: 90%; position: relative; animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #ccc; }
+        .close-btn:hover { color: #333; }
+        #modal-title { margin-bottom: 1rem; color: #2c3e50; border-left: 5px solid #3498db; padding-left: 10px; }
+
+        footer { text-align: center; padding: 2rem; background: #2c3e50; color: white; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+
+    <nav><h2>18週前端開發自主學習成果</h2></nav>
+
+    <header>
+        <h1>自主學習成果展示</h1>
+        <p>探索 HTML、CSS 與 JavaScript</p>
+    </header>
+
+    <div class="container">
+        <div class="intro-box">
+            <h3>💡 什麼是 JavaScript？</h3>
+            <p>在我的自主學習計畫中，<mark>JavaScript (JS)</mark> 是最難但卻是最好玩的部分。拿HTML、CSS 當作衣服及肉體，而<b>JavaScript 就是有趣的靈魂</b>。它把原本靜態的網頁擁有了的思考和互動的能力。經過 JS，它拿來設置了這個頁面的點擊反饋、動態視窗彈出，這就是JS好玩的地方。</p>
+        </div>
+
+        <h2 class="section-title">核心學習模組</h2>
+        
+        <div class="skills-grid">
+            <div class="skill-card" 
+                 data-title="HTML：結構與語義" 
+                 data-info="這是網頁的根基。我學到了如何正確使用標籤（Section, Article）來提升 SEO。網頁的所有文字、圖片連結與按鈕，都是從這去給予靈魂的。">
+                <h3>HTML</h3>
+                <p>點擊查看學習細節</p>
+            </div>
+
+            <div class="skill-card" 
+                 data-title="CSS：視覺與美化" 
+                 data-info="我學會了如何透過 Flexbox 進行排版，並利用 Media Queries 達成 RWD 響應式設計。我的網站現在不管在手機或電腦上，都可以看到正常的排版了。">
+                <h3>CSS / RWD</h3>
+                <p>點擊查看學習細節</p>
+            </div>
+
+            <div class="skill-card" 
+                 data-title="JavaScript：互動邏輯" 
+                 data-info="這是計畫的高階階段。我學會了 DOM 操作（Document Object Model），利用監聽器監控使用者的行為可以彈出視窗，就是用 JS 撰寫的互動成果。">
+                <h3>JavaScript</h3>
+                <p>點擊查看學習細節</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-text"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>自主學習成果紀錄</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementById('close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+        const cards = document.querySelectorAll('.skill-card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                modalTitle.innerText = card.getAttribute('data-title');
+                modalText.innerText = card.getAttribute('data-info');
+                modal.style.display = 'flex';
+            });
+        });
+
+        closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; }
+    </script>
+</body>
+</html>
